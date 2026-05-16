@@ -11,9 +11,21 @@ export async function generateMetadata({ params }) {
   if (!product) {
     return { title: 'Product — Lumenstate' };
   }
+  const title = `${product.title} — Lumenstate`;
+  const description = product.description;
   return {
-    title: `${product.title} — Lumenstate`,
-    description: product.tagline ?? 'Light defines the space.',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/product/${product.id}`,
+      type: 'website',
+    },
+    twitter: {
+      title,
+      description,
+    },
   };
 }
 
