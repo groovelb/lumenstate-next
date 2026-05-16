@@ -1,4 +1,9 @@
-import { productAssets } from '../assets/product';
+const productAssets = Object.fromEntries(
+  Array.from({ length: 20 }, (_, i) => {
+    const id = i + 1;
+    return [id, { images: [`/images/product/${id}.png`, `/images/product/${id}-1.png`] }];
+  }),
+);
 
 // Product Options (for product detail page)
 export const PRODUCT_OPTIONS = {
