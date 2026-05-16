@@ -6,6 +6,14 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.pexels.com' },
     ],
   },
+  outputFileTracingIncludes: {
+    '/**/opengraph-image': [
+      './public/fonts/Pretendard-Regular.otf',
+      './public/fonts/Pretendard-Medium.otf',
+      './public/images/og/**',
+      './public/images/product/**',
+    ],
+  },
 };
 
 export default nextConfig;

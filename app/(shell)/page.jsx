@@ -1,31 +1,19 @@
 import LandingPage from '@/stories/page/LandingPage';
-import { content } from '@/data/content';
 
-const { brand, hero } = content;
-const ogTitle = `${brand.name} — ${brand.tagline}`;
-const ogDescription = brand.tagline;
-const ogImage = hero.moodboard.hero;
+const ogTitle = 'Lumenstate — Light that defines the space, day to night.';
+const ogDescription = 'Light quietly residing within the space, flowing from day to night, automatically managed yet precisely controlled on demand.';
 
 export const metadata = {
-  title: brand.name,
+  title: 'Lumenstate',
   description: ogDescription,
   openGraph: {
     title: ogTitle,
     description: ogDescription,
     url: '/',
-    images: [
-      {
-        url: ogImage,
-        width: 2528,
-        height: 1696,
-        alt: 'Lumenstate brand mood',
-      },
-    ],
   },
   twitter: {
     title: ogTitle,
     description: ogDescription,
-    images: [ogImage],
   },
 };
 

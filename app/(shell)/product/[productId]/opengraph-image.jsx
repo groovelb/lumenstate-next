@@ -3,16 +3,21 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { products } from '@/data/products';
 
+export const runtime = 'nodejs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = 'Lumenstate product';
+
+function loadPublic(relPath) {
+  return readFileSync(path.join(process.cwd(), 'public', relPath));
+}
 
 export default async function Image({ params }) {
   const { productId } = await params;
   const product = products.find((p) => p.id === Number(productId));
 
-  const fontPath = path.join(process.cwd(), 'public', 'fonts', 'PretendardVariable.woff2');
-  const fontBuf = readFileSync(fontPath);
+  const fontRegular = loadPublic('fonts/Pretendard-Regular.otf');
+  const fontMedium = loadPublic('fonts/Pretendard-Medium.otf');
 
   if (!product) {
     return new ImageResponse(
@@ -36,13 +41,12 @@ export default async function Image({ params }) {
       ),
       {
         ...size,
-        fonts: [{ name: 'Pretendard', data: fontBuf, weight: 500, style: 'normal' }],
+        fonts: [{ name: 'Pretendard', data: fontMedium, weight: 500, style: 'normal' }],
       },
     );
   }
 
-  const imagePath = path.join(process.cwd(), 'public', product.images[0]);
-  const imageBuf = readFileSync(imagePath);
+  const imageBuf = loadPublic(product.images[0].replace(/^\//, ''));
   const imageDataUrl = `data:image/png;base64,${imageBuf.toString('base64')}`;
 
   const description = product.description.length > 130
@@ -127,8 +131,8 @@ export default async function Image({ params }) {
     {
       ...size,
       fonts: [
-        { name: 'Pretendard', data: fontBuf, weight: 400, style: 'normal' },
-        { name: 'Pretendard', data: fontBuf, weight: 500, style: 'normal' },
+        { name: 'Pretendard', data: fontRegular, weight: 400, style: 'normal' },
+        { name: 'Pretendard', data: fontMedium, weight: 500, style: 'normal' },
       ],
     },
   );
