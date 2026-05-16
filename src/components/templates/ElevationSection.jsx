@@ -2,7 +2,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { HorizontalScrollContainer } from '../content-transition/HorizontalScrollContainer';
-import { elevationSet1Video, elevationSet2Video, elevationSet3Video } from '../../assets/elevation';
+const elevationSet1Video = '/videos/set1_moving.mp4';
+const elevationSet2Video = '/videos/set2_moving.mp4';
+const elevationSet3Video = '/videos/set3_moving.mp4';
 
 /**
  * ElevationSection 컴포넌트
