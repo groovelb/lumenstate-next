@@ -12,7 +12,7 @@ A drop-in skill for setting up social-share metadata (Open Graph, Twitter Card) 
 OG looks simple, but four silent failures bite almost every project:
 
 1. **`'use client'` files cannot export metadata.** Next.js ignores it silently — no error, no warning. The page ships with zero OG tags.
-2. **`openGraph.title` / `twitter.title` do not inherit from the top-level `title`.** If you only set the top-level title, your social card title is blank.
+2. **`openGraph` and `twitter` are NOT deep-merged across layout → page.** If a child page exports `openGraph: { title, description }`, the parent's `openGraph.images` is **completely replaced**, not extended. Same for `twitter.card` — set it once in layout and then the child overrides the whole `twitter` object and the card type drops back to the default `summary`. Every page that declares its own `openGraph` or `twitter` must re-declare `images` (and `twitter.card`) if it wants them. The top-level `title` likewise does not inherit into `openGraph.title` / `twitter.title`.
 3. **Missing `metadataBase` breaks Kakao and Slack previews.** Relative image URLs (`/og/foo.png`) never get serialized into absolute URLs, and several crawlers (notably KakaoTalk) refuse to fetch them.
 4. **Reusing product/hero images directly as OG breaks Kakao.** Source images are usually PNG, square or 4:3, and well over 500KB. KakaoTalk drops anything over ~500KB without telling anyone, so the share preview just shows nothing. Source images also crop awkwardly into 1.91:1.
 
@@ -121,6 +121,8 @@ These are non-obvious failures. Mention them whenever you touch a related file:
 |---|---|---|
 | Page has no OG tags despite metadata export | `'use client'` is on the file | Move UI into a child component; keep `page.jsx` server-only |
 | Social card title is blank but page title works | `openGraph.title` / `twitter.title` not set | These don't inherit — set explicitly |
+| Page metadata renders og:title but no og:image | Child page declared `openGraph` without `images`, replacing the parent's | Re-declare `images` on every page that overrides `openGraph` |
+| Card downgrades to small `summary` on a page that has it large elsewhere | Child page declared `twitter` without `card: 'summary_large_image'` | Re-declare `card` on every page that overrides `twitter` |
 | OG image works on Twitter but Kakao/Slack show nothing | `metadataBase` missing → relative URL not serialized | Set `metadataBase: new URL(...)` in root layout |
 | OG image works everywhere except Kakao | Source PNG is over Kakao's ~500KB cap | Use `templates/build-og.mjs` to emit a ≤500KB JPEG variant |
 | OG image crop looks awkward in previews | Source isn't 1.91:1 (square product shots, 4:3 hero) | `build-og.mjs` cover-crops to 1200×630 |

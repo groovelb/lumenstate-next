@@ -19,17 +19,22 @@ export const metadata = {
   description: 'What this page is about.',
   alternates: { canonical: '/about' },
   openGraph: {
-    // openGraph.title does NOT inherit from the top-level `title`.
-    // Set it explicitly or the social card title will be blank.
+    // CRITICAL: `openGraph` is REPLACED, not deep-merged, across layout → page.
+    // The parent layout's openGraph.images is dropped the moment this child
+    // declares its own openGraph object. So if you want an image at all
+    // (even the site-wide default), re-declare it here.
     title: 'About',
     description: 'What this page is about.',
     url: '/about',                           // relative is fine — metadataBase resolves it
-    // images: ['/og/about.png'],           // optional override; usually a sibling
-                                             // opengraph-image.{png,jpg,jsx} is simpler
+    images: ['/og/about.jpg'],              // explicit; do NOT rely on inheritance
   },
   twitter: {
+    // Same replacement rule applies. Re-declare `card` or it falls back to
+    // small `summary` instead of `summary_large_image`.
+    card: 'summary_large_image',
     title: 'About',
     description: 'What this page is about.',
+    images: ['/og/about.jpg'],
   },
 };
 
