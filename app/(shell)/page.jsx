@@ -13,6 +13,8 @@ export const metadata = {
     description: ogDescription,
     url: '/',
     type: 'website',
+    siteName: 'Lumenstate',
+    locale: 'ko_KR',
     images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'Lumenstate' }],
   },
   twitter: {

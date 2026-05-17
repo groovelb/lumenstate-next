@@ -23,6 +23,8 @@ export async function generateMetadata({ params }) {
       description,
       url: `/product/${product.id}`,
       type: 'website',
+      siteName: 'Lumenstate',
+      locale: 'ko_KR',
       images: [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
     },
     twitter: {
