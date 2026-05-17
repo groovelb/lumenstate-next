@@ -9,22 +9,27 @@ export async function generateMetadata({ params }) {
   const { productId } = await params;
   const product = products.find((p) => p.id === Number(productId));
   if (!product) {
-    return { title: 'Product — Lumenstate' };
+    return { title: 'Product' };
   }
-  const title = `${product.title} — Lumenstate`;
+  const title = product.title;
   const description = product.description;
+  const ogImage = `/og/product/${product.id}.jpg`;
   return {
     title,
     description,
+    alternates: { canonical: `/product/${product.id}` },
     openGraph: {
       title,
       description,
       url: `/product/${product.id}`,
       type: 'website',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
     },
     twitter: {
+      card: 'summary_large_image',
       title,
       description,
+      images: [ogImage],
     },
   };
 }
